@@ -12,9 +12,9 @@ class AuthReddit {
         this.bearerValid = false;
     };
 
-    set bearerValid (state) {
+    set bearerValid (tokenState) {
         if(typeof state === 'boolean') {
-            this.bearerValid = state;
+            this.bearerValid = tokenState;
             return
         }
         console.error('False type!')
@@ -78,7 +78,7 @@ class AuthReddit {
                 });
                 const response = await request.json();
                 this.bearerValid = true;
-                setTimeout(() => this.bearerValid = false, )
+                setTimeout(() => this.bearerValid = false, (response.expires_in * 1000));
                 return response;
             } catch (err) {
                 console.log(err);
