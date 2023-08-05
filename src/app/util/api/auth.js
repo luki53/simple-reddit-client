@@ -9,11 +9,29 @@ class AuthReddit {
         this.redirect_url = redirect_url;
         this.baseUrl = 'https://www.reddit.com/api/';
         this.authEndpoint = 'v1/authorize?';
+        this.bearerValid = false;
     };
+
+    set bearerValid (state) {
+        if(typeof state === 'boolean') {
+            this.bearerValid = state;
+            return
+        }
+        console.error('False type!')
+        return 
+    };
+
+    get bearerValid () {
+        return this.bearerValid;
+    }
 
     getAuthUrl(uuidStr) {
 
         //Wichtig!! es muss kein fetch ausgeführt werden, da man auf die Seite des OAthu2 anbieters geleitet wird.
+        if (!uuidStr || typeof uuidStr != "string") {
+            throw new Error('please provide a uuidStr');
+        }
+
         const authUrl = this.baseUrl + 
             this.authEndpoint + 
             'client_id=' + 
@@ -46,6 +64,7 @@ class AuthReddit {
         return 
     }
 
+
     async getAuthorizationToken (code) {
         if(code) {
             try {
@@ -58,6 +77,8 @@ class AuthReddit {
                     body: 'grant_type=authorization_code&code=' + code + '&redirect_uri=' + this.redirect_url,
                 });
                 const response = await request.json();
+                this.bearerValid = true;
+                setTimeout(() => this.bearerValid = false, )
                 return response;
             } catch (err) {
                 console.log(err);
