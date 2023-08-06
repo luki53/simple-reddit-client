@@ -1,17 +1,30 @@
 ////////////////////////
 //Auth for bearertoken//
 ////////////////////////
+
 import AuthReddit from "./auth";
+
+const redditConstants = {
+    client_id: 'nwcbzyKlbvXb2uH0WpFtrA',
+    client_secret: 'g0qsVxuJ17EQRWH98i4PN9p-wpUZdA',
+    redirect_url: 'http://localhost:3000',
+    scope: {
+        read: 'read',
+        accout: 'account', // for updating personal pref
+        identity: 'identity', //for getting prefs
+        vote: 'vote'
+    }
+  };
   
-  const Auth = new AuthReddit(redditConstants.client_id, redditConstants.client_secret, redditConstants.redirect_url);
+const Auth = new AuthReddit(redditConstants.client_id, redditConstants.client_secret, redditConstants.redirect_url);
   
   
   
-  const code = await Auth.getAuthenticationToken();
-  const authorizationRespond =  await Auth.getAuthorizationToken(code);
-  const logout = false 
-  const refreshToken = authorizationRespond.refresh_token;
-  const bearertoken = authorizationRespond.access_token;
+const code = await Auth.getAuthenticationToken();
+const authorizationRespond =  await Auth.getAuthorizationToken(code);
+const logout = false 
+const refreshToken = authorizationRespond.refresh_token;
+const bearertoken = authorizationRespond.access_token;
 
 
 
@@ -74,7 +87,7 @@ export const getEndpoint = {
             const endpointUrl = 'https://oauth.reddit.com/user/' + usersFullName + '/about';
             const method = 'GET';
 
-            return this.fetchHelper(endpointUrl, method);
+            return fetchHelper(endpointUrl, method);
         },
         me: function() {
             const endpointUrl = "https://oauth.reddit.com/api/v1/me";
@@ -83,7 +96,7 @@ export const getEndpoint = {
             return fetchHelper(endpointUrl, method);
         },
         aboutSubReddit: function(subRedditFullName) {
-            const endpointUrl = 'https://oauth.reddit.com/r/' + subRedditFullName + '/about';
+            const endpointUrl = 'https://oauth.reddit.com/r/' + subRedditFullName + '/about.json'; // not the fullname !!
             const method = 'GET';
 
             return fetchHelper(endpointUrl, method);
@@ -96,8 +109,8 @@ export const getEndpoint = {
         }
     },
     comment: {
-        getComment: function (subRedditFullName, articleId) {
-            const endpointUrl = 'https://oauth.reddit.com/r/' + subRedditFullName + '/comments/' + articleId;
+        getComment: function (articleId) {
+            const endpointUrl = 'https://oauth.reddit.com/comments/' + articleId;
             const method = 'GET';
 
             return fetchHelper(endpointUrl, method);
