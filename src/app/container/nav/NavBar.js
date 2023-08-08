@@ -2,14 +2,14 @@ import React from "react";
 import LogoNTitle from "../../components/logo/LogoNTitle";
 import { Nav } from 'reactstrap';
 import { OffcanvasMenu } from "./OffCanvas";
-import { Switch } from "../../components/switch/Switch";
+import SwitchComp from "../../components/switch/Switch";
 
-export const Banner = (props) => {
+export const NavBar = (props) => {
     return (
         <Nav>
-            <Switch />
+            <SwitchComp />
             <OffcanvasMenu />
             <LogoNTitle />
         </Nav>
     )
-}   
+}  

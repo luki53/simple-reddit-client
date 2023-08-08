@@ -1,6 +1,8 @@
 import React from "react";
 import MarkdownIt from "markdown-it";
-import {parser as jsxParser} from 'html-react-parser';
+import HTMLReactParser from "html-react-parser";
+
+const jsxParser = HTMLReactParser;
 
 export const Post = (props) => {
     let content;

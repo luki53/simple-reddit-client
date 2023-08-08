@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch } from "../switch/Switch";
+import SwitchComp from '../switch/Switch'
 
 /*
     ONLY boolean settings
@@ -16,7 +16,7 @@ export const Setting = (props) => {
     return (
         <div className="setting">
             <p className="setting-name">{props.settingName}</p>
-            <Switch props={props.settingState} />
+            <SwitchComp props={props.settingState} />
         </div>
     )
 }

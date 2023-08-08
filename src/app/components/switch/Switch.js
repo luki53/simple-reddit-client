@@ -1,16 +1,19 @@
-// https://www.npmjs.com/package/react-switch => for Iphone swtyled switch dark/light-moden
 import React from "react";
-import { Switch as SwitchDefault} from 'react-switch';
+import Switch from 'react-switch';
 
-export const Switch = ({setSwitchState, switchState}) => {
+// https://www.npmjs.com/package/react-switch => for Iphone swtyled switch dark/light-moden
+
+const SwitchComp = ({setSwitchState, switchState}) => {
     
     const handleSwitch = () => {
         setSwitchState(!switchState);
-    } 
+    }
 
     return (
         <>
-            <SwitchDefault onChange={handleSwitch} checked={switchState} className="switch" />
+            <Switch onChange={handleSwitch} checked={switchState} className="switch" />
         </>
-    )
+    );
 }
+
+export default SwitchComp;
