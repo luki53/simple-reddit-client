@@ -4,6 +4,7 @@ import aboutUserSlice from "./slice/abouts/aboutUserSlice";
 import bestSlice from "./slice/listings/bestSlice";
 import commentsSlice from "./slice/commentsSlice";
 import settingsSlice from "./slice/settingsSlice";
+import voteSlice from "./slice/voteSlice";
 
 const reducer = {
 abouts: {
@@ -15,11 +16,12 @@ listings : {
 },
 commentsSlice,
 settingsSlice,
+voteSlice
 };
 
  const store = configureStore({
     reducer,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });
 
 export default store;
