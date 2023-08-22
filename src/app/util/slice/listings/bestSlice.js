@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getEndpoint } from "../api/Endpoints";
+import { getEndpoint } from "../../api/Endpoints";
 
 export const loadBestPosts = createAsyncThunk('best/loadBest', async () =>{
     const jsonResponse = getEndpoint.feedPosts.best();
-    return jsonResponse.data;
+    return jsonResponse;
 })
 
 const initialState = {
@@ -24,7 +24,7 @@ const bestSlice = createSlice({
         [loadBestPosts.fulfilled]: (state, payload) => {
             state.isLoading = false;
             state.hasError = false;
-            state.listing = payload;
+            state.listing = payload.payload.data;
         },
         [loadBestPosts.rejected]: (state, payload) => {
             state.isLoading = false;
@@ -33,5 +33,5 @@ const bestSlice = createSlice({
     }
 });
 
-export const selectBestListing = (state) => state.listings.best.listing;
+export const selectBestListing = (state) => state.bestSlice.listing;
 export default bestSlice.reducer;

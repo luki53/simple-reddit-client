@@ -12,11 +12,11 @@ import SwitchComp from '../switch/Switch'
     - search includes over 18 content
 */ 
 
-export const Setting = (props) => {
+export const Setting = ({setSwitchState, switchState, settingName}) => {
     return (
         <div className="setting">
-            <p className="setting-name">{props.settingName}</p>
-            <SwitchComp props={props.settingState} />
+            <p className="setting-name">{settingName}</p>
+            <SwitchComp stateName={settingName} setSwitchState={setSwitchState} switchState={switchState}/>
         </div>
     )
 }

@@ -1,19 +1,26 @@
 import React from "react";
 import MarkdownIt from "markdown-it";
 import HTMLReactParser from "html-react-parser";
+import moment from "moment";
+import person from '../../assets/person-circle.svg';
+import './post.css';
+import commentBubble from '../../assets/comment-bubble.png';
+import arrowDown from '../../assets/arrow-down.png';
+import arrowUp from '../../assets/arrow-up.png';
 
 const jsxParser = HTMLReactParser;
 
-export const Post = (props) => {
+export const Post = ({data, subreddit}) => {
     let content;
+    const aggreVots = data.downs + data.ups;
     const markdown = new MarkdownIt('commonmark');
-    const parser = new DOMParser();
-    const postedAt = new Date();
+    //const postedAt = new Date();
     // data.children[].data.selftext => listingRespons content data text
     // data.children[].data.subreddit => Where it was posted subreddit-name
     // data.children[].data.created_utc => timeStamp UTC
     // data.children[].data.num_comment => commentNumberString
     // data.children[].data.score => voteNumberString
+
 
     function onUpVoteClick() {
 
@@ -27,7 +34,7 @@ export const Post = (props) => {
         
     }
 
-    postedAt.setTime(props.data.created_utc);
+    //postedAt.setTime(props.data.created_utc);
 /**
  * In der Propertie "media" werden die Links zu den Preview pngs aufbewahrt.
  *  ==> data.children[].data.media
@@ -54,45 +61,53 @@ export const Post = (props) => {
  * 
  * Bei videos muss unter der Eigenschaft packagedMedia.playbackMp4s.permutations nach den videos gesucht werden
  */
-
-    if (props.data.selftext) {
+    if (data.selftext) {
         content = (
             <div className='post-content-container'>
-                <h3 className="post-title">{props.data.title}</h3>
-                {markdown.render(props.data.selftextt)}
+                <h3 className="post-title">{data.title}</h3>
+                {jsxParser(markdown.render(data.selftext))}
             </div>
             );
-    } else if(props.data.media_embed) {
-        const htmlString = props.data.media_embed.content.replace('&lt', '<').replace('&gt', '>').replace('&amp', '&');
-       
+    } else if(data.media_embed && data.media_embed.content !== undefined) {
+        
+        const htmlString = data.media_embed.content.replace('&lt', '<').replace('&gt', '>').replace('&amp', '&');
+        console.log(htmlString);
         content = (
             <div className='post-content-container'>
-                <h3 className="post-title">{props.data.title}</h3>
+                <h3 className="post-title">{data.title}</h3>
                {jsxParser(htmlString)}
             </div>
         )
-    } else if(props.data.post_hint === 'image') {
+    } else if(data.post_hint === 'image') {
         content = (
             <div className='post-content-container'>
-                <h3 className="post-title">{props.data.title}</h3>
-                <div className="post-img-mask"><img src={props.data.preview.images.source.url} alt="post image" /></div>
+                <h3 className="post-title">{data.title}</h3>
+                <div className="post-img-mask"><img src={data.url} alt="post" className="post-media-content"/></div>
+            </div>
+        )
+    } else if(data.post_hint === 'hosted:video') {
+        content = (
+            <div className='post-content-container'>
+                <h3 className="post-title">{data.title}</h3>
+                <div className="post-img-mask"><video src={data.media.reddit_video.fallback_url} className="post-media-content" controls/></div>
             </div>
         )
     };
 
     return (
          <div className="post-container">
-            <div className="user-date-container">
-                <img src={props.data.user.profile} alt="profil picture" className="post-profil-pic" />
-                <p>Posted in {props.data.subreddit}  ●  {date}</p>
+            <div className="post-user-data-container">
+                <div className="post-user-data-img-mask"><img src={subreddit.data.icon_img ? subreddit.data.icon_img : person} alt="profil" className="post-user-data-img" /></div>
+                <p className="post-info">Posted in {data.subreddit_name_prefixed
+}  <div className="post-info-dot">●</div>  {moment.unix(data.created_utc).fromNow()}</p>
             </div>
             {content}
             <div className="post-action-bar">
-                <button className="post-button comment-bubble"  onClick={onCommentClick}><i src={props.commentSymbol} /></button>
-                <p>{commentNumberString}</p>
-                <button className="post-button down-vote" onClick={onDownVoteClick}><i src={props.downVoteSymbol} /></button>
-                <p>{votNumberString}</p>
-                <button className="post-button up-vote" onClick={onUpVoteClick}><i src={props.upVoteSymbol} /></button>
+                <button className="post-action-button comment-bubble"  onClick={onCommentClick}><img src={commentBubble} className="action-bar-icon" alt="comments"/></button>
+                <p className="action-bar-string">{data.num_comments} Commments</p>
+                <button className="post-action-button down-vote" onClick={onDownVoteClick}><img src={arrowDown} className="action-bar-icon" alt="vote up"/></button>
+                <p className="action-bar-string">{aggreVots}</p>
+                <button className="post-action-button up-vote" onClick={onUpVoteClick}><img src={arrowUp} className="action-bar-icon" alt="vote down"/></button>
             </div>
          </div>
     )

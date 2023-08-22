@@ -1,10 +1,11 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import './NavLink.css';
 
-export const NavLink = (props) => {
+export const NavLinkOffCan = ({link, linkName}) => {
     return (
         <>
-            <NavLink to={props.link} alt={props.linkName}>{props.linkName}</NavLink>
+            <NavLink className="navLinkOffCan" to={link} alt={linkName}>{linkName}</NavLink>
             <div className="navDevider"></div>
         </>
     )

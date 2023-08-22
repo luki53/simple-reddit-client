@@ -1,12 +1,13 @@
 import React from "react";
 import Switch from 'react-switch';
+import './Switch.css';
 
 // https://www.npmjs.com/package/react-switch => for Iphone swtyled switch dark/light-moden
 
-const SwitchComp = ({setSwitchState, switchState}) => {
+const SwitchComp = ({setSwitchState, switchState, stateName}) => {
     
     const handleSwitch = () => {
-        setSwitchState(!switchState);
+        setSwitchState(stateName);
     }
 
     return (

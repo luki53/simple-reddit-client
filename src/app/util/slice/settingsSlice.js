@@ -3,7 +3,7 @@ import { getEndpoint, patch } from "../api/Endpoints";
 
 export const loadSettings = createAsyncThunk('settings/loadSettings', async () =>{
     const jsonResponse = await getEndpoint.info.userSettings();
-    return jsonResponse.data;
+    return jsonResponse;
 });
 
 export const patchSettings = createAsyncThunk('settings/patchSettings', async (settings) => {
@@ -23,8 +23,8 @@ const settingsSlice = createSlice({
     name: 'settings',
     initialState,
     reducers: {
-        changeSetting (state, payload) {
-            state.userSettings[payload.name] = !state.userSettings[payload.name]; // only boolean settings !
+        changeSetting (state, action) {
+            state.userSettings.payload[action.payload] = !(state.userSettings.payload[action.payload]); // only boolean settings !
         },
     },
     extraReducers: {

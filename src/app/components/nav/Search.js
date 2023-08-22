@@ -1,16 +1,33 @@
-import React, {useState} from "react";
-import { FormGroup, Label, Input } from "reactstrap"; 
+import React, {useState, useEffect} from "react";
+import { Label, Input, Button } from "reactstrap";
+import { changeSearchString } from "../../util/slice/listings/searchSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { loadSearch } from "../../util/slice/listings/searchSlice";
 
-export const Search = (props) => {
+export const Search = () => {
+    const dispatch = useDispatch();
     const [searchString, setSearchString] = useState('');
+    const goTo = useNavigate();
     
     const submitHandler = () => {
-        props.searchFor(searchString);
+        dispatch(changeSearchString(searchString));
+        dispatch(loadSearch(searchString));
+        const modifiedString = searchString.replace(/ /g, '+');
+        goTo('/fetch/' + modifiedString);
+    };
+
+    const clickHandler = () => {
         setSearchString('');
     }
+
+    useEffect(() => {
+        
+    }, []);
+
     return (
-    <FormGroup onSubmit={submitHandler}>
-        <Label for="exampleSearch">
+    <div>
+        <Label for="search">
             Search
         </Label>
         <Input
@@ -18,10 +35,11 @@ export const Search = (props) => {
             name="search"
             placeholder="Search..."
             type="search"
+            onClick={clickHandler}
             onChange={(e) => setSearchString(e.target.value)}
             value={searchString}
         />
-        <Input type="submit" />
-    </FormGroup>
+        <Button onClick={submitHandler}>Search</Button>
+    </div>
     )
 }

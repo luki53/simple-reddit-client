@@ -4,18 +4,20 @@
 
 import AuthReddit from "./auth";
 
+// Fill in your OAuth2 id and secret. And the redericting url to the server where this app is running.
+// Don't use for production !! secret is not Save in Browser!!
 const redditConstants = {
-    client_id: 'nwcbzyKlbvXb2uH0WpFtrA',
-    client_secret: 'g0qsVxuJ17EQRWH98i4PN9p-wpUZdA',
-    redirect_url: 'http://localhost:3000',
+    client_id: ,
+    client_secret: ,
+    redirect_url: ,
     scope: {
         read: 'read',
-        accout: 'account', // for updating personal pref
-        identity: 'identity', //for getting prefs
+        accout: 'account', 
+        identity: 'identity', 
         vote: 'vote'
     }
   };
-  
+
 const Auth = new AuthReddit(redditConstants.client_id, redditConstants.client_secret, redditConstants.redirect_url);
   
   
@@ -75,7 +77,7 @@ export const getEndpoint = {
             return fetchHelper(endpoint, method);
         },  
         getPostsOf: function(subRedditFullName) {
-            const endpoint = 'https://oauth.reddit.com/r/' + subRedditFullName + '/new';
+            const endpoint = 'https://oauth.reddit.com/user/' + subRedditFullName + '/submitted';
             const method = 'GET';
 
             return fetchHelper(endpoint, method);
@@ -119,7 +121,7 @@ export const getEndpoint = {
 
     search: {
         find: function (searchString) {
-            const endPoint = `https://oauth.reddit.com/search?=${searchString.replace(' ', '+')}`;
+            const endPoint = `https://oauth.reddit.com/search?q=${searchString.replace(/ /g, '+')}`;
             const method = 'GET';
                 
             return fetchHelper(endPoint, method);

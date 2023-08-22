@@ -5,18 +5,18 @@ import bestSlice from "./slice/listings/bestSlice";
 import commentsSlice from "./slice/commentsSlice";
 import settingsSlice from "./slice/settingsSlice";
 import voteSlice from "./slice/voteSlice";
+import aboutMeSlice from "./slice/abouts/aboutMeSlice";
+import searchSlice from "./slice/listings/searchSlice";
 
 const reducer = {
-abouts: {
-    aboutSubredditSlice,
-    aboutUserSlice
-},
-listings : {
-    bestSlice
-},
+aboutSubredditSlice,
+aboutUserSlice,
+bestSlice,
 commentsSlice,
 settingsSlice,
-voteSlice
+voteSlice,
+aboutMeSlice,
+searchSlice
 };
 
  const store = configureStore({

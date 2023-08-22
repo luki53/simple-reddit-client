@@ -1,0 +1,42 @@
+.settingsList {
+    max-width: 66vw;
+    border-radius: 22px;
+    background-color: var(--dark-mode-primary);
+    color: var(--dark-mode-text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 60px;
+    margin: 20px;
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.setting {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.saveSettingButton {
+    margin-top: 15px;
+    margin-bottom: 10;
+    width: 80px;
+    border-radius: 5px;
+    text-decoration: none;
+    background-color: var(--dark-mode-secundary);
+    border: none;
+    color: white;
+}
+
+.saveSettingButton:active {
+    margin-top: 15px;
+    margin-bottom: 10;
+    width: 80px;
+    border-radius: 5px;
+    text-decoration: none;
+    background-color: white;
+    border: none;
+    color: black;
+}

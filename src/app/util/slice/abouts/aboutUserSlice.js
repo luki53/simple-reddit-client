@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getEndpoint } from "../api/Endpoints";
+import { getEndpoint } from "../../api/Endpoints";
 
 export const loadAboutUser = createAsyncThunk('users/loadUser', async (arg) =>{
     const jsonResponse = await getEndpoint.info.AboutUser(arg)
@@ -7,15 +7,20 @@ export const loadAboutUser = createAsyncThunk('users/loadUser', async (arg) =>{
 })
 
 const initialState = {
-        abouts: {},
+        data: {},
         isLoading: false,
-        hasError: false
+        hasError: false,
+        user: ''
 }
 
 const aboutUserSlice = createSlice({
     name: 'users',
     initialState,
-    reducers: {},
+    reducers: {
+        defineUserForLoading(state, action) {
+            state.user = action.payload;
+        }
+    },
     extraReducers: {
         [loadAboutUser.pending]: (state, payload) => {
             state.isLoading = true;
@@ -24,7 +29,7 @@ const aboutUserSlice = createSlice({
         [loadAboutUser.fulfilled]: (state, payload) => {
             state.isLoading = false;
             state.hasError = false;
-            state.abouts = payload;
+            state.data = payload;
         },
         [loadAboutUser.rejected]: (state, payload) => {
             state.isLoading = false;
@@ -32,6 +37,6 @@ const aboutUserSlice = createSlice({
         }
     }
 });
-
-export const selectAboutUser = (state) => state.about.users.abouts;
+export const { setUser } = aboutUserSlice.actions;
+export const selectAboutUser = (state) => state.aboutUserSlice.data;
 export default aboutUserSlice.reducer;
