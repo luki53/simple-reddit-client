@@ -1,0 +1,24 @@
+.menuButton {
+    background: none;
+    align-self: center;
+    border: none;
+    padding-left: 30px;
+}
+
+.btn-close {
+    color: #FFF !important;
+}
+
+.offcanvas {
+    background-color: rgba(40, 40, 40, 0.80) !important;
+}
+
+.offcanvasHeader {
+    color: white;
+    position: relative;
+    top: 10px
+}
+
+.offcanvasBody {
+    color: white;
+}

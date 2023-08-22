@@ -17,7 +17,6 @@ class AuthReddit {
             this.bearerValid = tokenState;
             return
         }
-        console.error('False type!')
         return 
     };
 
@@ -39,7 +38,7 @@ class AuthReddit {
             '&response_type=code&state=' + 
             uuidStr + '&redirect_uri=' + 
             this.redirect_url + 
-            '&duration=permanent&scope=read,account,identity,vote';
+            '&duration=permanent&scope=read,account,identity,vote,history';
         return authUrl;    
     }
 
@@ -54,6 +53,12 @@ class AuthReddit {
         if (state === stateCallback && state) {
             window.localStorage.removeItem('state');
             localStorage.setItem('code',code);
+
+            const obj = {
+                Title: 'Simple Reddit Client',
+                Url: this.redirect_url + "/"
+            }
+            window.history.pushState(obj, obj.Title, obj.Url);
             return code;
         }
     

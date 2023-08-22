@@ -2,17 +2,30 @@
 //Auth for bearertoken//
 ////////////////////////
 import AuthReddit from "./auth";
-  
-  const Auth = new AuthReddit(redditConstants.client_id, redditConstants.client_secret, redditConstants.redirect_url);
-  
-  
-  
-  const code = await Auth.getAuthenticationToken();
-  const authorizationRespond =  await Auth.getAuthorizationToken(code);
-  const logout = false 
-  const refreshToken = authorizationRespond.refresh_token;
-  const bearertoken = authorizationRespond.access_token;
 
+// Fill in your OAuth2 id and secret. And the redericting url to the server where this app is running.
+// Don't use for production !! secret is not Save in Browser!!
+const redditConstants = {
+    client_id: ,
+    client_secret: ,
+    redirect_url: ,
+    scope: {
+        read: 'read',
+        accout: 'account', 
+        identity: 'identity', 
+        vote: 'vote'
+    }
+  };
+
+const Auth = new AuthReddit(redditConstants.client_id, redditConstants.client_secret, redditConstants.redirect_url);
+  
+  
+  
+const code = await Auth.getAuthenticationToken();
+const authorizationRespond =  await Auth.getAuthorizationToken(code);
+const logout = false 
+const refreshToken = authorizationRespond.refresh_token;
+const bearertoken = authorizationRespond.access_token;
 
 
 // implementing renewal of token when time is up ==> not implementet jet
@@ -62,7 +75,7 @@ export const getEndpoint = {
             return fetchHelper(endpoint, method);
         },  
         getPostsOf: function(subRedditFullName) {
-            const endpoint = 'https://oauth.reddit.com/r/' + subRedditFullName + '/new';
+            const endpoint = 'https://oauth.reddit.com/user/' + subRedditFullName + '/submitted';
             const method = 'GET';
 
             return fetchHelper(endpoint, method);
@@ -74,7 +87,8 @@ export const getEndpoint = {
             const endpointUrl = 'https://oauth.reddit.com/user/' + usersFullName + '/about';
             const method = 'GET';
 
-            return this.fetchHelper(endpointUrl, method);
+
+            return fetchHelper(endpointUrl, method);
         },
         me: function() {
             const endpointUrl = "https://oauth.reddit.com/api/v1/me";
@@ -83,7 +97,7 @@ export const getEndpoint = {
             return fetchHelper(endpointUrl, method);
         },
         aboutSubReddit: function(subRedditFullName) {
-            const endpointUrl = 'https://oauth.reddit.com/r/' + subRedditFullName + '/about';
+            const endpointUrl = 'https://oauth.reddit.com/r/' + subRedditFullName + '/about.json'; // not the fullname !!
             const method = 'GET';
 
             return fetchHelper(endpointUrl, method);
@@ -96,8 +110,8 @@ export const getEndpoint = {
         }
     },
     comment: {
-        getComment: function (subRedditFullName, articleId) {
-            const endpointUrl = 'https://oauth.reddit.com/r/' + subRedditFullName + '/comments/' + articleId;
+        getComment: function (articleId) {
+            const endpointUrl = 'https://oauth.reddit.com/comments/' + articleId;
             const method = 'GET';
 
             return fetchHelper(endpointUrl, method);
@@ -106,7 +120,7 @@ export const getEndpoint = {
 
     search: {
         find: function (searchString) {
-            const endPoint = `https://oauth.reddit.com/search?=${searchString.replace(' ', '+')}`;
+            const endPoint = `https://oauth.reddit.com/search?q=${searchString.replace(/ /g, '+')}`;
             const method = 'GET';
                 
             return fetchHelper(endPoint, method);

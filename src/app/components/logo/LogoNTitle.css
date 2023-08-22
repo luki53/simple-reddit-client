@@ -1,0 +1,19 @@
+.siteLogoTitle {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    margin: 8px;
+}
+
+.logo-img {
+    width: 60px;
+    height: 60px;;
+}
+
+.logoText {
+    color: #FFF;
+    position: relative;
+    top: 10px;
+    left: 10px;
+    font-size: 24px;;
+}
